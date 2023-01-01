@@ -32,7 +32,7 @@ const UplaodingDocView = (props) => {
         className="btn btn-primary btn-next"
         onClick={() => onClickBack()}
       >
-        BecK
+        Back
       </button>}
       </div>
     </div>

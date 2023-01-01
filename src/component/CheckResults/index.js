@@ -12,6 +12,7 @@ import {
   isStorageConfigured,
   sasToken,
 } from "../UploadDocument/util";
+import { baseURL, fileName } from "./Constant";
 
 const storageConfigured = isStorageConfigured();
 
@@ -19,8 +20,6 @@ const CheckResults = ({ selectedInfo }) => {
   const [fieldValue, setFieldValue] = useState("");
   const [info, setInfo] = useState([]);
   const [waitingLoader, setWatingLoader] = useState(true);
-  const baseURL =
-    "https://fuctions-api.azurewebsites.net/api/as_is_document_extractor_dev_api?";
   // "https://contractsdataextractionv1.azurewebsites.net/api/contract_extraction_function";
 
 
@@ -132,11 +131,11 @@ const CheckResults = ({ selectedInfo }) => {
       arr.push([element.name, element.value]);
     }
     console.log(arr);
-    pdfConvert(arr).save("data.pdf");
+    pdfConvert(arr, fileName).save(`${fileName}.pdf`);
   };
 
   const onExportDataExcel = () => {
-    saveAs(excelConvert(info), "exceldata.xlsx");
+    saveAs(excelConvert(info), `${fileName}.xlsx`);
   };
   const headers = [
     { label: "Field Name", key: "name" },
@@ -145,7 +144,7 @@ const CheckResults = ({ selectedInfo }) => {
   const csvReport = {
     data: info,
     headers: headers,
-    filename: "Data_Report.csv",
+    filename: `${fileName}.csv`,
   };
 
   const onExportDataJSON = () => {
@@ -155,7 +154,7 @@ const CheckResults = ({ selectedInfo }) => {
   const onExportDataText = () => {
     const str = info.map((a) => `${Object.values(a).join(": ")}\n`).join("");
     let blob = new Blob([str], { type: "text/plain;charset=utf-8" });
-    saveAs(blob, "testfile1.txt");
+    saveAs(blob, `${fileName}.txt`);
   };
 
   // azure file uploading

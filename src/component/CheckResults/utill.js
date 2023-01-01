@@ -1,11 +1,13 @@
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import XLSX from 'sheetjs-style';
+import { fileName } from "./Constant";
 
-export const pdfConvert = (data) =>
+export const pdfConvert = (data, fileName) =>
 {
     var doc = new jsPDF()
-
+    doc.setFontSize(30)
+    doc.text(15, 25, fileName) 
   // From HTML
   doc.autoTable({ html: '.table' })
 
@@ -74,7 +76,7 @@ export const exportToText = (data) => {
   // e.preventDefault();
   downloadFile({
     data: JSON.stringify(data),
-    fileName: "data.txt",
+    fileName: `${fileName}.txt`,
     fileType: "text/plain;charset=utf-8",
   });
 };
@@ -82,7 +84,7 @@ export const exportToJson = (data) => {
   // e.preventDefault();
   downloadFile({
     data: JSON.stringify(data),
-    fileName: "data.json",
+    fileName: `${fileName}.json`,
     fileType: "text/json",
   });
 };
