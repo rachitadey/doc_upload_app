@@ -1,7 +1,6 @@
 import jsPDF from "jspdf";
 import 'jspdf-autotable';
 import XLSX from 'sheetjs-style';
-import { fileName } from "./Constant";
 
 export const pdfConvert = (data, fileName) =>
 {
@@ -72,15 +71,7 @@ const downloadFile = ({ data, fileName, fileType }) => {
   a.dispatchEvent(clickEvt);
   a.remove();
 };
-export const exportToText = (data) => {
-  // e.preventDefault();
-  downloadFile({
-    data: JSON.stringify(data),
-    fileName: `${fileName}.txt`,
-    fileType: "text/plain;charset=utf-8",
-  });
-};
-export const exportToJson = (data) => {
+export const exportToJson = (data, fileName) => {
   // e.preventDefault();
   downloadFile({
     data: JSON.stringify(data),

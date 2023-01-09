@@ -13,6 +13,7 @@ import {
   sasToken,
 } from "../UploadDocument/util";
 import { baseURL, fileName } from "./Constant";
+import { arrayOfdata } from "./mockData";
 
 const storageConfigured = isStorageConfigured();
 
@@ -20,8 +21,6 @@ const CheckResults = ({ selectedInfo }) => {
   const [fieldValue, setFieldValue] = useState("");
   const [info, setInfo] = useState([]);
   const [waitingLoader, setWatingLoader] = useState(true);
-  // "https://contractsdataextractionv1.azurewebsites.net/api/contract_extraction_function";
-
 
   useEffect(() => {
     console.log("storageConfigured", storageConfigured);
@@ -29,7 +28,6 @@ const CheckResults = ({ selectedInfo }) => {
       uploadFileToBlob(selectedInfo.uploaded_file[0]);
     }
   }, []);
-
 
   const apiCalling = async (fileURL) => {
     console.log("fileUrl", fileURL);
@@ -42,26 +40,33 @@ const CheckResults = ({ selectedInfo }) => {
         "Content-Type": "application/json",
       },
       // data: { name: selectedInfo.uploaded_file[0].name },
-      data: {"fileURL" : fileURL}
+      data: { fileURL: fileURL },
     })
       .then((res) => {
         console.log("data", res);
-        const tempArray = [];
-        let tempObj = {};
-        for (let key in res.data) {
-          if (res.data.hasOwnProperty(key)) {
-            tempObj = {
-              name: key,
-              value: res.data[key],
-            };
-            tempArray.push(tempObj);
+        // const tempArray = [];
+        // let tempObj = {};
+        // for (let key in res.data) {
+        //   if (res.data.hasOwnProperty(key)) {
+        //     tempObj = {
+        //       name: key,
+        //       value: res.data[key],
+        //     };
+        //     tempArray.push(tempObj);
+        //   }
+        // }
+        arrayOfdata.map((arr) => {
+          for (let key in res.data) {
+            if (res.data.hasOwnProperty(key) && arr.name === key) {
+              arr.value = res.data[key];
+            }
           }
-        }
-        console.log("tt", tempArray);
+        });
+        console.log(arrayOfdata);
         if (selectedInfo.data_points === "All data points") {
-          setInfo(tempArray);
+          setInfo(arrayOfdata);
         } else {
-          let res = tempArray.filter((n) =>
+          let res = arrayOfdata.filter((n) =>
             selectedInfo.customDataArray.some((n2) => n.name === n2.name)
           );
           setInfo(res);
@@ -131,11 +136,13 @@ const CheckResults = ({ selectedInfo }) => {
       arr.push([element.name, element.value]);
     }
     console.log(arr);
-    pdfConvert(arr, fileName).save(`${fileName}.pdf`);
+    pdfConvert(arr, selectedInfo.uploaded_file[0].name).save(
+      `${selectedInfo.uploaded_file[0].name}.pdf`
+    );
   };
 
   const onExportDataExcel = () => {
-    saveAs(excelConvert(info), `${fileName}.xlsx`);
+    saveAs(excelConvert(info), `${selectedInfo.uploaded_file[0].name}.xlsx`);
   };
   const headers = [
     { label: "Field Name", key: "name" },
@@ -144,17 +151,17 @@ const CheckResults = ({ selectedInfo }) => {
   const csvReport = {
     data: info,
     headers: headers,
-    filename: `${fileName}.csv`,
+    filename: `${selectedInfo.uploaded_file[0].name}.csv`,
   };
 
   const onExportDataJSON = () => {
-    exportToJson(info);
+    exportToJson(info, selectedInfo.uploaded_file[0].name);
   };
 
   const onExportDataText = () => {
     const str = info.map((a) => `${Object.values(a).join(": ")}\n`).join("");
     let blob = new Blob([str], { type: "text/plain;charset=utf-8" });
-    saveAs(blob, `${fileName}.txt`);
+    saveAs(blob, `${selectedInfo.uploaded_file[0].name}.txt`);
   };
 
   // azure file uploading

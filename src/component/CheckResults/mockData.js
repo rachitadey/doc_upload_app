@@ -35,3 +35,138 @@ export const mockData = {
   "Amount Deposit": "Yes",
   "Additional Addenda": "Homeowners Assn.",
 };
+
+export const arrayOfdata = [
+  {
+    name: "Seller Name(s)",
+    value: "",
+  },
+  {
+    name: "Buyer Names(s)",
+    value: "",
+  },
+  {
+    name: "Address",
+    value: "",
+  },
+  {
+    name: "County",
+    value: "",
+  },
+  {
+    name: "Tax ID",
+    value: "",
+  },
+  {
+    name: "Purchase Price",
+    value: "",
+  },
+  {
+    name: "Initial deposit amount",
+    value: "",
+  },
+  {
+    name: "Initial deposit date",
+    value: "",
+  },
+  {
+    name: "Additional deposit",
+    value: "",
+  },
+  {
+    name: "Additional deposit amount",
+    value: "",
+  },
+  {
+    name: "Additional deposit date",
+    value: "",
+  },
+  {
+    name: "Financing amount",
+    value: "",
+  },
+  {
+    name: "Closing Date",
+    value: "",
+  },
+  {
+    name: "Effective Date",
+    value: "",
+  },
+  {
+    name: "Subject to Lease",
+    value: "",
+  },
+  {
+    name: "Contract Assignability",
+    value: "",
+  },
+  {
+    name: "Financing Contingency",
+    value: "",
+  },
+  {
+    name: "Purchase Money note and mortgage to seller",
+    value: "",
+  },
+  {
+    name: "Other charges to seller",
+    value: "",
+  },
+  {
+    name: "Other charges to buyer",
+    value: "",
+  },
+  {
+    name: "Title Evidence Days",
+    value: "",
+  },
+  {
+    name: "Seller Designates Agent",
+    value: "",
+  },
+  {
+    name: "Buyer Designates Agent",
+    value: "",
+  },
+  {
+    name: "Regional Provision",
+    value: "",
+  },
+  {
+    name: "Abstract Continuation Max",
+    value: "",
+  },
+  {
+    name: "Home Warranty",
+    value: "",
+  },
+  {
+    name: "Municipal Special Assessments",
+    value: "",
+  },
+  {
+    name: "Property Inspection Days",
+    value: "",
+  },
+  {
+    name: "Additional Addenda",
+    value: "",
+  },
+  {
+    name: "Additional Terms",
+    value: "",
+  },
+  {
+    name: "Sales Associates",
+    value: "",
+  },
+  {
+    name: "Listing Agent%",
+    value: "",
+  },
+  {
+    name: "Selling Agent%",
+    value: "",
+  },
+];
