@@ -18,20 +18,37 @@
 }
 .check-result-container-right {
   padding: 10px 0px 0px 0px;
-  height: "200px";
-  overflow-y: "scroll";
   white-space: nowrap;
 }
 .check-result-container-right ul {
   list-style: none;
   padding: 0;
+  height: 500px;
+    overflow-y: scroll;
+}
+.check-result-container-right ::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.check-result-container-right ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.check-result-container-right ::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.check-result-container-right ::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 .check-result-container-right ul li {
   padding: 10px 0px 10px 0px;
   width: 100%;
   display: flex;
   border-bottom: 1px solid #73bf45;
-  display: flex;
   justify-content: flex-start;
 }
 .left-title-section .heading-title {
@@ -84,6 +101,11 @@
 }
 
 .export-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-btn-checkresults {
   display: flex;
   justify-content: flex-end;
 }

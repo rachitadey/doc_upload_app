@@ -44,17 +44,8 @@ const CheckResults = ({ selectedInfo }) => {
     })
       .then((res) => {
         console.log("data", res);
-        // const tempArray = [];
-        // let tempObj = {};
-        // for (let key in res.data) {
-        //   if (res.data.hasOwnProperty(key)) {
-        //     tempObj = {
-        //       name: key,
-        //       value: res.data[key],
-        //     };
-        //     tempArray.push(tempObj);
-        //   }
-        // }
+       
+        if(selectedInfo.document_types === 'Title contracts'){
         arrayOfdata.map((arr) => {
           for (let key in res.data) {
             if (res.data.hasOwnProperty(key) && arr.name === key) {
@@ -62,15 +53,31 @@ const CheckResults = ({ selectedInfo }) => {
             }
           }
         });
-        console.log(arrayOfdata);
-        if (selectedInfo.data_points === "All data points") {
-          setInfo(arrayOfdata);
-        } else {
-          let res = arrayOfdata.filter((n) =>
-            selectedInfo.customDataArray.some((n2) => n.name === n2.name)
-          );
-          setInfo(res);
-        }
+        setInfo(arrayOfdata);
+      }
+      else {
+        const tempArray = [];
+                let tempObj = {};
+                for (let key in res.data) {
+                  if (res.data.hasOwnProperty(key)) {
+                    tempObj = {
+                      name: key,
+                      value: res.data[key],
+                    };
+                    tempArray.push(tempObj);
+                  }
+                }
+                setInfo(tempArray);
+      }
+        console.log('kk',selectedInfo.document_types);
+
+        // if (selectedInfo.data_points === "All data points") {
+        // } else {
+        //   let res = arrayOfdata.filter((n) =>
+        //     selectedInfo.customDataArray.some((n2) => n.name === n2.name)
+        //   );
+        //   setInfo(res);
+        // }
         setWatingLoader(false);
       })
 
@@ -211,7 +218,7 @@ const CheckResults = ({ selectedInfo }) => {
           Please Wait.... Your file(s) are being processed......
         </div>
       ) : (
-        <div className="row ">
+        <div className="row">
           <div className="col-md-4">
             <div>
               <PdfViewer preview={selectedInfo.uploaded_file[0]} />
@@ -267,6 +274,15 @@ const CheckResults = ({ selectedInfo }) => {
                   );
                 })}
               </ul>
+              {/* <div className="save-btn-checkresults">
+              <button
+                  className="btn btn-common"
+                  variant="secondary"
+                  onClick={onSaveBtnClick}
+                >
+                  Save
+                </button>
+                </div> */}
               <div className="export-btn-container">
                 <button
                   className="btn btn-common"
