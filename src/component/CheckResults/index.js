@@ -12,8 +12,8 @@ import {
   isStorageConfigured,
   sasToken,
 } from "../UploadDocument/util";
-import { baseURL, fileName } from "./Constant";
-import { arrayOfdata } from "./mockData";
+import { baseURL, fileName, saveToDBURL } from "./Constant";
+import { arrayOfdata, mockData } from "./mockData";
 
 const storageConfigured = isStorageConfigured();
 
@@ -137,6 +137,33 @@ const CheckResults = ({ selectedInfo }) => {
     setFieldValue(value);
   };
 
+//   const onSavetoDB = () => {
+// console.log('info',info);
+// const dataforSavetoDB = info.reduce((obj, cur, i) => ({ ...obj, [cur.name] : cur.value }), {})
+// console.log('asddf', dataforSavetoDB);
+// axios({
+//   url: saveToDBURL,
+//   method: "POST",
+//   headers: {
+//     Accept: "*/*",
+//     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+//     "Content-Type": "application/json",
+//   },
+//   // data: { name: selectedInfo.uploaded_file[0].name },
+//   data: { jsonPayload: dataforSavetoDB },
+// })
+//   .then((res) => {
+//     console.log("data", res);
+   
+//   })
+
+//   // Catch errors if any
+//   .catch((err) => {
+//     console.log("err", err);
+//   });
+
+//   }
+
   const onExportDataPdf = () => {
     let arr = [];
     for (const element of info) {
@@ -176,24 +203,27 @@ const CheckResults = ({ selectedInfo }) => {
   // <snippet_uploadFileToBlob>
   const uploadFileToBlob = async (file) => {
     if (!file) return [];
-    console.log("file", file);
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
-      `https://rg01deva5c0.blob.core.windows.net/?${sasToken}`
+        `https://pdffileupload.blob.core.windows.net/?${sasToken}`
     );
     // `https://rg01deva5c0.blob.core.windows.net/?${sasToken}`
     // get Container - full public read access
+    console.log('blobService',blobService);
     const containerClient = blobService.getContainerClient(containerName);
-    await containerClient.createIfNotExists({
-      access: "container",
-    });
+    console.log('containerClient',containerClient);
+    // await containerClient.createIfNotExists({
+    //   access: "container",
+    // });
 
     // upload file
 
     const blobClient = containerClient.getBlockBlobClient(file.name);
+    console.log('blobClient',blobClient);
 
     // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
+    console.log('options', options);
 
     // upload file
     await blobClient
