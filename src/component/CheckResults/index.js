@@ -45,17 +45,17 @@ const CheckResults = ({ selectedInfo }) => {
       .then((res) => {
         console.log("data", res);
        
-        if(selectedInfo.document_types === 'Title contracts'){
-        arrayOfdata.map((arr) => {
-          for (let key in res.data) {
-            if (res.data.hasOwnProperty(key) && arr.name === key) {
-              arr.value = res.data[key];
-            }
-          }
-        });
-        setInfo(arrayOfdata);
-      }
-      else {
+      //   if(selectedInfo.document_types === 'Title contracts'){
+      //   arrayOfdata.map((arr) => {
+      //     for (let key in res.data) {
+      //       if (res.data.hasOwnProperty(key) && arr.name === key) {
+      //         arr.value = res.data[key];
+      //       }
+      //     }
+      //   });
+      //   setInfo(arrayOfdata);
+      // }
+      // else {
         const tempArray = [];
                 let tempObj = {};
                 for (let key in res.data) {
@@ -68,7 +68,7 @@ const CheckResults = ({ selectedInfo }) => {
                   }
                 }
                 setInfo(tempArray);
-      }
+      // }
         console.log('kk',selectedInfo.document_types);
 
         // if (selectedInfo.data_points === "All data points") {
