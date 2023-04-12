@@ -48,11 +48,6 @@
     /* margin: 1em; */
   }
   
-  .Example__container__document .react-pdf__Page canvas {
-    max-width: 810px !important;
-    height: 1054px !important;
-    width: 810px !important;
-  }
 
   .Example__container__document .react-pdf__Page .react-pdf__Page__textContent 
   {display: none;}

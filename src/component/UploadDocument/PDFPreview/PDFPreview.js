@@ -39,7 +39,8 @@ export const PDFPreview = ({ preview, setPreview }) => {
             onLoadSuccess={onDocumentLoadSuccess}
             options={options}
           >
-            <Page pageNumber={pageNumber} />
+            <Page pageNumber={pageNumber}
+            height={1054} />
           </Document>
           <div className="bottom_section">
             <button

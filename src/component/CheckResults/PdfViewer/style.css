@@ -37,15 +37,12 @@
   /* margin: 1em; */
 }
 
-.Pdf__container__document .react-pdf__Page canvas {
-  max-width: 400px !important;
-  height: 400px !important;
-  width: 400px !important;
-}
-
 .Pdf__container__document .react-pdf__message {
   padding: 20px;
   color: white;
+}
+.Pdf__container__document .react-pdf__Page__textContent {
+  top: 43% !important;
 }
 .bottom_section_pdf {
   position: absolute;

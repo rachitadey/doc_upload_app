@@ -8,11 +8,11 @@ const options = {
   standardFontDataUrl: "standard_fonts/",
 };
 
-export const PdfViewer = ({ preview, setPreview }) => {
+export const PdfViewer = ({ preview, setPreview, markWords }) => {
   const [file, setFile] = useState(preview);
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-
+  console.log('markWords', markWords);
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
     setPageNumber(1);
@@ -30,16 +30,48 @@ export const PdfViewer = ({ preview, setPreview }) => {
     changePage(1);
   }
 
+  const highlightPattern = (text, highlightWords) => {
+    // This is the only major change -- rather than searching for a string, create a regex to search
+    // for any strings in a provided array
+    const regex = new RegExp(highlightWords.join('|'), 'gi')
+    const splitText = text.split(regex)
+
+    if (splitText.length <= 1) {
+      return text
+    }
+
+    const matches = text.match(regex)
+
+    return splitText.reduce(
+      (arr, element, index) =>
+        matches[index]
+          ? [...arr, element, <mark
+            style={{ backgroundColor: "orange" }}
+            key={index}
+          >
+            {matches[index]}
+          </mark>]
+          : [...arr, element],
+      []
+    )
+  }
+  const makeTextRenderer = searchText => textItem => highlightPattern(textItem.str, searchText);
+
   return (
-    <div className="Pdf">
-      {/* <div className="Pdf__container"> */}
         <div className="Pdf__container__document">
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
             options={options}
           >
-            <Page pageNumber={pageNumber} />
+            <Page pageNumber={pageNumber} 
+            
+            customTextRenderer={makeTextRenderer(markWords)}
+            renderTextLayer={true}
+            height={400}
+            scale={0.95}
+            // renderMode="svg"
+            />
           </Document>
           <div className="bottom_section_pdf">
             <button
@@ -61,7 +93,5 @@ export const PdfViewer = ({ preview, setPreview }) => {
             </button>
           </div>
         </div>
-      {/* </div> */}
-    </div>
   );
 };

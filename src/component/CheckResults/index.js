@@ -21,16 +21,17 @@ const CheckResults = ({ selectedInfo }) => {
   const [fieldValue, setFieldValue] = useState("");
   const [info, setInfo] = useState([]);
   const [waitingLoader, setWatingLoader] = useState(true);
+  const [markWords, setMarkWords] = useState([])
 
   useEffect(() => {
-    console.log("storageConfigured", storageConfigured);
+    // console.log("storageConfigured", storageConfigured);
     if (storageConfigured) {
       uploadFileToBlob(selectedInfo.uploaded_file[0]);
     }
   }, []);
 
   const apiCalling = async (fileURL) => {
-    console.log("fileUrl", fileURL);
+    // console.log("fileUrl", fileURL);
     axios({
       url: baseURL,
       method: "POST",
@@ -43,7 +44,7 @@ const CheckResults = ({ selectedInfo }) => {
       data: { fileURL: fileURL },
     })
       .then((res) => {
-        console.log("data", res);
+        // console.log("data", res);
        
       //   if(selectedInfo.document_types === 'Title contracts'){
       //   arrayOfdata.map((arr) => {
@@ -68,8 +69,14 @@ const CheckResults = ({ selectedInfo }) => {
                   }
                 }
                 setInfo(tempArray);
+                // console.log('tempArray', tempArray);
+                let arr = [];
+                for (const element of tempArray) {
+                  arr.push([element.value]);
+                }
+                setMarkWords(arr)
       // }
-        console.log('kk',selectedInfo.document_types);
+        // console.log('kk',selectedInfo.document_types);
 
         // if (selectedInfo.data_points === "All data points") {
         // } else {
@@ -209,9 +216,7 @@ const CheckResults = ({ selectedInfo }) => {
     );
     // `https://rg01deva5c0.blob.core.windows.net/?${sasToken}`
     // get Container - full public read access
-    console.log('blobService',blobService);
     const containerClient = blobService.getContainerClient(containerName);
-    console.log('containerClient',containerClient);
     // await containerClient.createIfNotExists({
     //   access: "container",
     // });
@@ -219,17 +224,14 @@ const CheckResults = ({ selectedInfo }) => {
     // upload file
 
     const blobClient = containerClient.getBlockBlobClient(file.name);
-    console.log('blobClient',blobClient);
 
     // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
-    console.log('options', options);
 
     // upload file
     await blobClient
       .uploadData(file, options)
       .then((res) => {
-        console.log("Done=>>>", res._response.request.url);
         apiCalling(res._response.request.url);
       })
       .catch((ex) => console.log("error", ex.message));
@@ -251,7 +253,7 @@ const CheckResults = ({ selectedInfo }) => {
         <div className="row">
           <div className="col-md-4">
             <div>
-              <PdfViewer preview={selectedInfo.uploaded_file[0]} />
+              <PdfViewer preview={selectedInfo.uploaded_file[0]} markWords={markWords}/>
             </div>
           </div>
           <div className="col-md-8">
