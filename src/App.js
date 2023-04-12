@@ -21,24 +21,35 @@ const MainContent = () => {
   );
 };
 
-export function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(
-  //   localStorage.getItem("isLogin") === "Yes" ? true : false
-  // );
+// export function App() {
+//   // const [isLoggedIn, setIsLoggedIn] = useState(
+//   //   localStorage.getItem("isLogin") === "Yes" ? true : false
+//   // );
   
-  const isAuthenticated = useIsAuthenticated();
-  console.log('isAuthenticated', isAuthenticated);
+//   const isAuthenticated = useIsAuthenticated();
+//   console.log('isAuthenticated', isAuthenticated);
 
-  return isAuthenticated ? (
-    <UplaodingDocContainer
+//   return isAuthenticated ? (
+//     <UplaodingDocContainer
       
-    ></UplaodingDocContainer>
-  ) : (
-    <LoginContainer></LoginContainer>
-  );
-  // return (
-  // <MainContent/>
-  // );
-}
+//     ></UplaodingDocContainer>
+//   ) : (
+//     <LoginContainer></LoginContainer>
+//   );
+//   // return (
+//   // <MainContent/>
+//   // );
+// }
 
 // export default App;
+
+export function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  return isLoggedIn ? (
+    <UplaodingDocContainer
+      setIsLoggedIn={setIsLoggedIn}
+    ></UplaodingDocContainer>
+  ) : (
+    <LoginContainer setIsLoggedIn={setIsLoggedIn}></LoginContainer>
+  );
+}

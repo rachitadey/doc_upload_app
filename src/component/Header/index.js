@@ -7,9 +7,13 @@ import { useMsal } from "@azure/msal-react";
   const Header = ({ setIsLoggedIn }) => {
   const { instance } = useMsal();
   const handleLogout = () => {
-    instance.logoutRedirect({
-      postLogoutRedirectUri: "/",
-  });
+  //   instance.logoutRedirect({
+  //     postLogoutRedirectUri: "/",
+  // });
+
+  localStorage.removeItem("isLogin");
+    setIsLoggedIn(false);
+
   };
   return (
     <div className="header">

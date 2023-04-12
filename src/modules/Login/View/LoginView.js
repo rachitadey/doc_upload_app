@@ -7,12 +7,12 @@ import { loginRequest } from "../../../authConfig";
 const LoginView = ({ setIsLoggedIn }) => {
   const { instance } = useMsal();
   const handleLogin = () => {
-    // localStorage.setItem("isLogin", "Yes");
+    localStorage.setItem("isLogin", "Yes");
     // localStorage.setItem("donotShow", "No");
-    // setIsLoggedIn(true);
-    instance.loginRedirect(loginRequest).catch(e => {
-      console.log('e',e);
-  });
+    setIsLoggedIn(true);
+  //   instance.loginRedirect(loginRequest).catch(e => {
+  //     console.log('e',e);
+  // });
   };
   return (
     <div className="row">

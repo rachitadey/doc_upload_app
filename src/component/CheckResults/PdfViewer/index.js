@@ -68,8 +68,8 @@ export const PdfViewer = ({ preview, setPreview, markWords }) => {
             
             customTextRenderer={makeTextRenderer(markWords)}
             renderTextLayer={true}
-            height={400}
-            scale={0.95}
+            width={430}
+            // scale={0.95}
             // renderMode="svg"
             />
           </Document>
