@@ -103,6 +103,7 @@
 .export-btn-container {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 .save-btn-checkresults {

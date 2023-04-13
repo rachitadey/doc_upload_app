@@ -251,12 +251,12 @@ const CheckResults = ({ selectedInfo }) => {
         </div>
       ) : (
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div>
               <PdfViewer preview={selectedInfo.uploaded_file[0]} markWords={markWords}/>
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-6">
             <div className="check-result-container-right">
               <ul>
                 {info.map((data, index) => {
