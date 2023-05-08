@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "./style.css";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const options = {
   cMapUrl: "cmaps/",
@@ -30,35 +32,25 @@ export const PdfViewer = ({ preview, setPreview, markWords }) => {
     changePage(1);
   }
 
-  const highlightPattern = (text, highlightWords) => {
-    // This is the only major change -- rather than searching for a string, create a regex to search
-    // for any strings in a provided array
-    const regex = new RegExp(highlightWords.join('|'), 'gi')
-    const splitText = text.split(regex)
 
-    if (splitText.length <= 1) {
-      return text
-    }
-
-    const matches = text.match(regex)
-
-    return splitText.reduce(
-      (arr, element, index) =>
-        matches[index]
-          ? [...arr, element, <mark
-            style={{ backgroundColor: "orange" }}
-            key={index}
-          >
-            {matches[index]}
-          </mark>]
-          : [...arr, element],
-      []
-    )
+  function highlightPattern(text, pattern) {
+    var str = text;
+    pattern.forEach((p) => {
+      str = str.replace(p, (value) => `<mark>${value}</mark>`);
+    });
+    return str;
   }
-  const makeTextRenderer = searchText => textItem => highlightPattern(textItem.str, searchText);
+
+  const arr = ['Closing', 'CHECK', 'PURCHASE'];
+
+  //replace arr with dictionary 1D array
+  const textRenderer = useCallback(
+    (textItem) => highlightPattern(textItem.str, markWords),
+    []
+  );
 
   return (
-        <div className="Pdf__container__document">
+        <div className="main_container">
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -66,11 +58,9 @@ export const PdfViewer = ({ preview, setPreview, markWords }) => {
           >
             <Page pageNumber={pageNumber} 
             
-            customTextRenderer={makeTextRenderer(markWords)}
+            customTextRenderer={textRenderer}
             renderTextLayer={true}
             width={690}
-            // scale={0.95}
-            // renderMode="svg"
             />
           </Document>
           <div className="bottom_section_pdf">

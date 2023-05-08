@@ -15,6 +15,9 @@ import {
 import { baseURL, fileName, saveToDBURL } from "./Constant";
 import { arrayOfdata, mockData } from "./mockData";
 
+import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 const storageConfigured = isStorageConfigured();
 
 const CheckResults = ({ selectedInfo }) => {
@@ -22,13 +25,30 @@ const CheckResults = ({ selectedInfo }) => {
   const [info, setInfo] = useState([]);
   const [waitingLoader, setWatingLoader] = useState(true);
   const [markWords, setMarkWords] = useState([])
+  
+  const [uploadOrDownloadCount, setUploadOrDownloadCount] = useState(0);
+  const [percentage, setPercentage] = useState(0);
+  const nextBtn = document.getElementById('next-btn');
+  const backBtn = document.getElementById('back-btn');
+
+  var interval = setInterval(function () {
+    setPercentage(percentage + 10);
+    if (percentage < 91) setUploadOrDownloadCount(percentage);
+  }, 5000);
+  setTimeout(function () {
+    clearInterval(interval);
+  }, 10000);
+
 
   useEffect(() => {
     // console.log("storageConfigured", storageConfigured);
     if (storageConfigured) {
       uploadFileToBlob(selectedInfo.uploaded_file[0]);
-    }
+    } 
+    nextBtn.style.display = "none";
+    backBtn.style.display = "none";
   }, []);
+  const delay = ms => new Promise(res => setTimeout(res, ms));
 
   const apiCalling = async (fileURL) => {
     // console.log("fileUrl", fileURL);
@@ -43,20 +63,11 @@ const CheckResults = ({ selectedInfo }) => {
       // data: { name: selectedInfo.uploaded_file[0].name },
       data: { fileURL: fileURL },
     })
-      .then((res) => {
-        // console.log("data", res);
-       
-      //   if(selectedInfo.document_types === 'Title contracts'){
-      //   arrayOfdata.map((arr) => {
-      //     for (let key in res.data) {
-      //       if (res.data.hasOwnProperty(key) && arr.name === key) {
-      //         arr.value = res.data[key];
-      //       }
-      //     }
-      //   });
-      //   setInfo(arrayOfdata);
-      // }
-      // else {
+      .then(async (res) => {
+        setUploadOrDownloadCount(100);
+            await delay(5000);
+            nextBtn.style.display = "block";
+            backBtn.style.display = "block";
         const tempArray = [];
                 let tempObj = {};
                 for (let key in res.data) {
@@ -69,10 +80,17 @@ const CheckResults = ({ selectedInfo }) => {
                   }
                 }
                 setInfo(tempArray);
-                // console.log('tempArray', tempArray);
                 let arr = [];
                 for (const element of tempArray) {
-                  arr.push([element.value]);
+                  console.log(element.value);
+                  if(element.value !== null && typeof element.value !== "number" 
+                  && element.value !== "" && element.value !== '15' 
+                  && element.value !== '0' && element.value !== '5' 
+                  && element.value !== '7'
+                  && !(element.value.toLowerCase() === 'na'|| element.value.toLowerCase() === 'no'|| element.value.toLowerCase() === 'yes' || element.value.toLowerCase() === 'of'))
+                  {
+                  arr.push(element.value);
+                  }
                 }
                 setMarkWords(arr)
       // }
@@ -245,9 +263,14 @@ const CheckResults = ({ selectedInfo }) => {
       </div>
       {waitingLoader ? (
         <div className="wating-container">
-          {/* <img className="waiting-img" src={waiting} alt="loading..." /> */}
-          <Spinner animation="border" />
           Please Wait.... Your file(s) are being processed......
+          <div style={{ width: 200, height: 200,paddingTop:10 }}>
+            <CircularProgressbarWithChildren value={uploadOrDownloadCount} styles={buildStyles({pathColor: '#73bf45'})}>
+              <div style={{ fontSize: 12, marginTop: -5 }}>
+                <strong>{uploadOrDownloadCount} %</strong>
+              </div>
+            </CircularProgressbarWithChildren>
+          </div>
         </div>
       ) : (
         <div className="row">

@@ -23,6 +23,7 @@ const UplaodingDocView = (props) => {
       <div className="btn-container">
       <button
         className="btn btn-primary btn-next1"
+        id="next-btn"
         onClick={() => onClickNext()}
       >
         Next
@@ -30,6 +31,7 @@ const UplaodingDocView = (props) => {
       {console.log(activeStep)}
       {activeStep !== 0 && <button
         className="btn btn-primary btn-next"
+        id="back-btn"
         onClick={() => onClickBack()}
       >
         Back

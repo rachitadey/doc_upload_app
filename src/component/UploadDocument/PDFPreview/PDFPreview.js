@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import "./style.css";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 const options = {
   cMapUrl: "cmaps/",
@@ -37,7 +39,7 @@ export const PDFPreview = ({ preview, setPreview }) => {
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
-            options={options}
+            // options={options}
           >
             <Page pageNumber={pageNumber}
             height={1054} />
